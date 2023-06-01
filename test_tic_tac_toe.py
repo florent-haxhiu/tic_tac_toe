@@ -49,7 +49,7 @@ class TestTicTacToe(TestCase):
         while count < 3:
             self.game.grid = grids[count]
 
-            expected = "Player one has won"
+            expected = True
             actual = self.game.check_for_winner("one")
 
             self.assertEqual(expected, actual)
@@ -66,8 +66,17 @@ class TestTicTacToe(TestCase):
         while count < 3:
             self.game.grid = grids[count]
 
-            expected = "Player one has won"
+            expected = True
             actual = self.game.check_for_winner("one")
 
             self.assertEqual(expected, actual)
             count += 1
+
+    @patch("tic_tac_toe.move")
+    def test_game_if_player_x_wins(self, moves):
+        moves.side_effect = [(0, 0), (1, 0), (0, 1), (1, 1), (0, 2), (2, 2)]
+
+        actual = self.game.game()
+        expected = True
+
+        self.assertEqual(expected, actual)

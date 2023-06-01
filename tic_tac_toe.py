@@ -1,4 +1,4 @@
-from typing import Tuple
+import pprint
 
 
 def move() -> tuple[int, int]:
@@ -19,9 +19,7 @@ class Game:
     still_playing = True
 
     def player_movement(self):
-        moves = move()
-        row = moves[0]
-        col = moves[1]
+        row, col = move()
         player_turn = "X" if self.count % 2 == 0 else "O"
         self.grid[row][col] = player_turn
         self.count += 1
@@ -30,22 +28,37 @@ class Game:
         print("Started Game")
         while self.still_playing:
             player_turn = "one" if self.count % 2 == 0 else "two"
-            print(f"Player {player_turn}s turn")
-            self.player_movement()
             self.check_for_winner(player_turn)
+            print(f"Player {player_turn}s turn")
+            self.print_nice_grid()
+            if self.player_movement():
+                self.still_playing = False
+                print(f"Player {player_turn} won")
+                break
             if self.count == 8:
                 print("It is a draw")
                 self.still_playing = False
 
     def check_for_winner(self, player_number):
+        print(player_number)
         player = "X" if player_number == "one" else "O"
+        print(player)
         for i in range(len(self.grid)):
-            if self.grid[i][0] == "X" and self.grid[i][1] == "X" and self.grid[i][2] == "X":
-                return f"Player {player_number} has won"
+            print("Is this being checked", self.grid[i][0] == player and self.grid[i][1] == player and self.grid[i][2] == player)
+            if self.grid[i][0] == player and self.grid[i][1] == player and self.grid[i][2] == player:
+                return True
             # Vertical Checking, needs to be refactored. Must be a nicer way than this
             elif self.grid[0][i] == player and self.grid[0][i] == player and self.grid[0][i] == player:
-                return f"Player {player_number} has won"
+                return True
             elif self.grid[1][i] == player and self.grid[1][i] == player and self.grid[1][i] == player:
-                return f"Player {player_number} has won"
+                return True
             elif self.grid[2][i] == player and self.grid[2][i] == player and self.grid[2][i] == player:
-                return f"Player {player_number} has won"
+                return True
+
+    def print_nice_grid(self):
+        print('\n'.join(' '.join(map(str, x)) for x in self.grid))
+
+# TODO: Need to work on functionality of the win logic as it doesn't end the game when it detects a winner. Strange
+
+# game = Game()
+# game.game()
