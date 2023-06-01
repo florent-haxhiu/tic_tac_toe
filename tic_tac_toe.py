@@ -28,11 +28,24 @@ class Game:
 
     def game(self):
         print("Started Game")
-        print(bool(self.still_playing))
         while self.still_playing:
             player_turn = "one" if self.count % 2 == 0 else "two"
             print(f"Player {player_turn}s turn")
             self.player_movement()
+            self.check_for_winner(player_turn)
             if self.count == 8:
                 print("It is a draw")
                 self.still_playing = False
+
+    def check_for_winner(self, player_number):
+        player = "X" if player_number == "one" else "O"
+        for i in range(len(self.grid)):
+            if self.grid[i][0] == "X" and self.grid[i][1] == "X" and self.grid[i][2] == "X":
+                return f"Player {player_number} has won"
+            # Vertical Checking, needs to be refactored. Must be a nicer way than this
+            elif self.grid[0][i] == player and self.grid[0][i] == player and self.grid[0][i] == player:
+                return f"Player {player_number} has won"
+            elif self.grid[1][i] == player and self.grid[1][i] == player and self.grid[1][i] == player:
+                return f"Player {player_number} has won"
+            elif self.grid[2][i] == player and self.grid[2][i] == player and self.grid[2][i] == player:
+                return f"Player {player_number} has won"

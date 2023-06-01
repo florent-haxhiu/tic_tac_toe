@@ -37,3 +37,37 @@ class TestTicTacToe(TestCase):
             self.game.player_movement()
             self.assertEqual(expected[count], self.game.grid)
             count += 1
+
+    def test_if_win_logic_for_horizontal_with_predefined_grids(self):
+        count = 0
+        horizontal_win_first_row = [['X', 'X', 'X'], ['', '', ''], ['', '', '']]
+        horizontal_win_second_row = [['', '', ''], ['X', 'X', 'X'], ['', '', '']]
+        horizontal_win_third_row = [['', '', ''], ['', '', ''], ['X', 'X', 'X']]
+
+        grids = [horizontal_win_first_row, horizontal_win_second_row, horizontal_win_third_row]
+
+        while count < 3:
+            self.game.grid = grids[count]
+
+            expected = "Player one has won"
+            actual = self.game.check_for_winner("one")
+
+            self.assertEqual(expected, actual)
+            count += 1
+
+    def test_if_win_logic_for_vertical_with_predefined_grids(self):
+        count = 0
+        vertical_win_first_col = [['X', '', ''], ['X', '', ''], ['X', '', '']]
+        vertical_win_second_col = [['', 'X', ''], ['', 'X', ''], ['', 'X', '']]
+        vertical_win_third_col = [['', '', 'X'], ['', '', 'X'], ['', '', 'X']]
+
+        grids = [vertical_win_first_col, vertical_win_second_col, vertical_win_third_col]
+
+        while count < 3:
+            self.game.grid = grids[count]
+
+            expected = "Player one has won"
+            actual = self.game.check_for_winner("one")
+
+            self.assertEqual(expected, actual)
+            count += 1
