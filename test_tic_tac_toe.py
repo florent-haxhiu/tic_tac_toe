@@ -27,14 +27,13 @@ class TestTicTacToe(TestCase):
 
     @patch('tic_tac_toe.move')
     def test_if_players_one_and_twos_moves_register_on_grid(self, moves):
+        count = 0
         moves.side_effect = [(1, 1), (0, 0)]
-
-        self.game.player_movement()
-
         expected_one = [['', '', ''], ['', 'X', ''], ['', '', '']]
-        self.assertEqual(expected_one, self.game.grid)
-
-        self.game.player_movement()
-
         expected_two = [['O', '', ''], ['', 'X', ''], ['', '', '']]
-        self.assertEqual(expected_two, self.game.grid)
+        expected = [expected_one, expected_two]
+
+        while count < 2:
+            self.game.player_movement()
+            self.assertEqual(expected[count], self.game.grid)
+            count += 1
